@@ -1,0 +1,20 @@
+#!/bin/sh
+cd $(dirname $0)
+
+IEXEC_OUT=/tmp/iexec_out
+IEXEC_IN=/tmp/iexec_in
+
+rm -rf $IEXEC_OUT
+mkdir -p $IEXEC_OUT
+rm -rf $IEXEC_IN
+mkdir -p $IEXEC_IN
+
+cp images/image1.jpg  $IEXEC_IN/
+
+docker run --rm -v $IEXEC_OUT:/iexec_out -v $IEXEC_IN:/iexec_in ericro/image-resolution $@
+
+echo "result.txt:"
+ls -lh $IEXEC_OUT/*
+echo " "
+echo "computed.json:"
+cat $IEXEC_OUT/computed.json
